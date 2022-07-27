@@ -16,9 +16,9 @@
         <!-- 左侧放大镜区域 -->
         <div class="previewWrap">
           <!--放大镜效果-->
-          <Zoom />
+          <Zoom :skuInfoImageList="skuInfoImageList"/>
           <!-- 小图列表 -->
-          <ImageList />
+          <ImageList :skuInfoImageList="skuInfoImageList"/>
         </div>
         <!-- 右侧选择区域布局 -->
         <div class="InfoWrap">
@@ -362,7 +362,10 @@
       TypeNav
     },
     computed:{
-      ...mapGetters(['categoryView','skuInfo','spuSaleAttrList'])
+      ...mapGetters(['categoryView','skuInfo','spuSaleAttrList']),
+      skuInfoImageList(){
+        return this.skuInfo.skuImageList || []
+      }
     }
   }
 </script>
