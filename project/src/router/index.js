@@ -5,6 +5,8 @@ import Search from '@/pages/Search'
 import Login from '@/pages/Login'
 import Register from '@/pages/Register'
 import Detail from '@/pages/Detail'
+import AddCartSuccess from '@/pages/AddCartSuccess'
+import ShopCart from '@/pages/ShopCart'
 
 Vue.use(VueRouter)
 export default new VueRouter({
@@ -39,6 +41,16 @@ export default new VueRouter({
             path: '/detail/:skuid',
             name: 'detail',
             component: Detail
+        },
+        {
+            path: '/addcartsuccess/:skuNum?',
+            name: 'addcartsuccess',
+            component: AddCartSuccess
+        },
+        {
+            path: '/shopcart',
+            name: 'shopcart',
+            component: ShopCart
         }
     ],
     scrollBehavior(){

@@ -1,4 +1,4 @@
-import { reqDetail } from "@/api"
+import { reqDetail ,reqAddCart} from "@/api"
 const state={
     detail:{}
 }
@@ -7,6 +7,14 @@ const actions={
         let result = await reqDetail(skuid)
         if(result.code = 200){
             commit('GETDETAIL',result.data)
+        }
+    },
+    async postAddCart({commit},{skuId,skuNum}){
+        let result =  await reqAddCart(skuId,skuNum)
+        if(result.code === 200){
+            return 'ok'
+        }else{
+            throw Error
         }
     }
 }

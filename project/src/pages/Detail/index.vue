@@ -75,7 +75,7 @@
                 <a href="javascript:" class="mins" @click="count>1?count--:count=1">-</a>
               </div>
               <div class="add">
-                <a href="javascript:">加入购物车</a>
+                <a href="javascript:" @click="addCart">加入购物车</a>
               </div>
             </div>
           </div>
@@ -358,6 +358,21 @@
           this.count = parseInt(Math.abs(e.target.value))
         }else{
           this.count = 1
+        }
+      },
+      changeActive(value,arr){
+        arr.forEach((item)=>{
+          item.isChecked = 0
+          value.isChecked = 1
+        })
+      },
+      async addCart(){
+        try{
+          await this.$store.dispatch('postAddCart',{skuId:this.$route.params.skuid,skuNum:this.count})
+          this.$router.push({name:'addcartsuccess',params:{skuNum:this.count}})
+          sessionStorage.setItem('skuInfo',JSON.stringify(this.skuInfo))
+        }catch(e){
+          alert(e.name,e.message)
         }
       }
     }
