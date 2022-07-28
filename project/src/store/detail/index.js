@@ -23,8 +23,8 @@ const getters={
         return state.detail.skuInfo || {}
     },
     spuSaleAttrList(state){
-        return state.detail.spuSaleAttrList || {}
-    }
+        return state.detail.spuSaleAttrList || []
+    },
 }
 
 export default{

@@ -15,11 +15,23 @@
     props: {
       skuInfoImageList: Array
     },
-    computed: {
-      skuInfo1(){
-        return this.skuInfoImageList[0] || {}
+    data(){
+      return{
+        imgIndex1: 0
       }
     },
+    computed: {
+      skuInfo1:{
+        get(){
+          return this.skuInfoImageList[this.imgIndex1] || {}
+        },
+      }
+    },
+    mounted(){
+      this.$bus.$on('changeImg',(index)=>{
+        this.imgIndex1 = index
+      })
+    }
   }
 </script>
 

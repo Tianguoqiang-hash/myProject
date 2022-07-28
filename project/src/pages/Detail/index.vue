@@ -63,36 +63,16 @@
           <div class="choose">
             <div class="chooseArea">
               <div class="choosed"></div>
-              <dl>
-                <dt class="title">选择颜色</dt>
-                <dd changepirce="0" class="active">金色</dd>
-                <dd changepirce="40">银色</dd>
-                <dd changepirce="90">黑色</dd>
-              </dl>
-              <dl>
-                <dt class="title">内存容量</dt>
-                <dd changepirce="0" class="active">16G</dd>
-                <dd changepirce="300">64G</dd>
-                <dd changepirce="900">128G</dd>
-                <dd changepirce="1300">256G</dd>
-              </dl>
-              <dl>
-                <dt class="title">选择版本</dt>
-                <dd changepirce="0" class="active">公开版</dd>
-                <dd changepirce="-1000">移动版</dd>
-              </dl>
-              <dl>
-                <dt class="title">购买方式</dt>
-                <dd changepirce="0" class="active">官方标配</dd>
-                <dd changepirce="-240">优惠移动版</dd>
-                <dd changepirce="-390">电信优惠版</dd>
+              <dl v-for="item in spuSaleAttrList" :key="item.id">
+                <dt class="title">选择{{item.saleAttrName}}</dt>
+                <dd changepirce="0" :class="{active: value.isChecked==1}" v-for="value in item.spuSaleAttrValueList" :key="value.id" @click="changeActive(value,item.spuSaleAttrValueList)">{{value.saleAttrValueName}}</dd>
               </dl>
             </div>
             <div class="cartWrap">
               <div class="controls">
-                <input autocomplete="off" class="itxt">
-                <a href="javascript:" class="plus">+</a>
-                <a href="javascript:" class="mins">-</a>
+                <input autocomplete="off" class="itxt" v-model.number="count" @change="getCount">
+                <a href="javascript:" class="plus" @click="count++">+</a>
+                <a href="javascript:" class="mins" @click="count>1?count--:count=1">-</a>
               </div>
               <div class="add">
                 <a href="javascript:">加入购物车</a>
@@ -353,6 +333,11 @@
 
   export default {
     name: 'Detail',
+    data(){
+      return {
+        count: 1
+      }
+    },
     mounted(){
       this.$store.dispatch('getDetail',this.$route.params.skuid)
     },
@@ -365,6 +350,15 @@
       ...mapGetters(['categoryView','skuInfo','spuSaleAttrList']),
       skuInfoImageList(){
         return this.skuInfo.skuImageList || []
+      }
+    },
+    methods:{
+      getCount(e){
+        if(e.target.value*1){
+          this.count = parseInt(Math.abs(e.target.value))
+        }else{
+          this.count = 1
+        }
       }
     }
   }
