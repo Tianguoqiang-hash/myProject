@@ -9,6 +9,8 @@ const request = axios.create({
     timeout: 5000
 })
 request.interceptors.request.use((config)=>{
+    //通过localstorage添加uuid到请求头,带到服务器
+    config.headers.userTempId = localStorage.getItem('uuid')
     // 开启进度条
     nProgress.start()
     return config

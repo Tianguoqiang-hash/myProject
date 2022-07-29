@@ -330,6 +330,7 @@
   import Zoom from './Zoom/Zoom'
   import TypeNav from '@/components/TypeNav/TypeNav.vue'
   import {mapGetters} from 'vuex'
+  import {getUUID} from '@/utils/utils'
 
   export default {
     name: 'Detail',
@@ -368,6 +369,7 @@
       },
       async addCart(){
         try{
+          getUUID()
           await this.$store.dispatch('postAddCart',{skuId:this.$route.params.skuid,skuNum:this.count})
           this.$router.push({name:'addcartsuccess',params:{skuNum:this.count}})
           sessionStorage.setItem('skuInfo',JSON.stringify(this.skuInfo))

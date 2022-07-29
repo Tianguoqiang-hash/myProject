@@ -5,7 +5,7 @@
       <div class="goods">
         <div class="left-good">
           <div class="left-pic">
-            <img src="good.skuDefaultImg">
+            <img :src="skuInfo.skuDefaultImg">
           </div>
           <div class="right-info">
             <p class="title">{{skuInfo.skuName}}</p>
@@ -28,7 +28,7 @@
       skuInfo(){
         return JSON.parse(sessionStorage.getItem('skuInfo'))
       }
-    }
+    },
   }
 </script>
 
