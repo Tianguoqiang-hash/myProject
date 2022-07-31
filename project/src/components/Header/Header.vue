@@ -5,10 +5,14 @@
       <div class="container">
         <div class="loginList">
           <p>尚品汇欢迎您！</p>
-          <p>
+          <p v-if="!$store.state.user.userInfo.name">
             <span>请</span>
             <router-link to="/login" replace>登录</router-link>
             <router-link to="/register" class="register" replace>免费注册</router-link>
+          </p>
+          <p v-else>
+            <a>{{$store.state.user.userInfo.name}}</a>
+            <a class="register" @click="logout">退出登录</a>
           </p>
         </div>
         <div class="typeList">
@@ -77,12 +81,20 @@ export default {
         }).catch((err)=>err)
       // this.$store.dispatch('getSearchList',{category1Id:this.$route.query.category1Id,categoryName:this.$route.query.categoryName,keyword:this.searchValue || undefined})
     },
+    async logout(){
+      try {
+        this.$store.dispatch('getLogout')
+        this.$router.push('/home')
+      } catch (e) {
+        alert(e.message)
+      }
+    }
   },
   mounted(){
     this.$bus.$on('clear',()=>{
       this.searchValue = ''
     })
-  }
+  },
 };
 </script>
 

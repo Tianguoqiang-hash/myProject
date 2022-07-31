@@ -13,7 +13,7 @@
       <div class="cart-body">
         <ul class="cart-list" v-for="item in cartInfoList" :key="item.id">
           <li class="cart-list-con1">
-            <input type="checkbox" name="chk_list" :checked="item.isChecked===1">
+            <input type="checkbox" name="chk_list" :checked="item.isChecked===1" @click="changeStatus($event,item)">
           </li>
           <li class="cart-list-con2">
             <img :src="item.imgUrl">
@@ -40,11 +40,11 @@
     </div>
     <div class="cart-tool">
       <div class="select-all">
-        <input class="chooseAll" type="checkbox" :checked="isAllCheck === cartInfoList.length">
+        <input class="chooseAll" type="checkbox" :checked="isAllCheck && cartInfoList.length > 0" @click="changeAllChecked">
         <span>全选</span>
       </div>
       <div class="option">
-        <a href="#none">删除选中的商品</a>
+        <a @click="deleteChecked">删除选中的商品</a>
         <a href="#none">移到我的关注</a>
         <a href="#none">清除下柜商品</a>
       </div>
@@ -67,11 +67,6 @@
   import {mapGetters} from 'vuex'
   export default {
     name: 'ShopCart',
-    data(){
-      return{
-        count: this.$route.params.skuNum
-      }
-    },
     mounted(){
       this.$store.dispatch('getShopCart')
     },
@@ -88,7 +83,7 @@
         return sum
       },
       isAllCheck(){
-        return this.cartInfoList.reduce((total,item)=>total+item.isChecked,0)
+        return this.cartInfoList.every((item)=>item.isChecked == 1)
       }
     },
     methods:{
@@ -130,6 +125,32 @@
           this.$store.dispatch('getShopCart')
         } catch (e) {
           alert(e.name,e.message)
+        }
+      },
+      async deleteChecked(){
+        try {
+          await this.$store.dispatch('deleteChecked')
+          this.$store.dispatch('getShopCart')
+        } catch (e) {
+          alert(e.message)
+        }
+      },
+      async changeStatus(e,item){
+        try {
+          let isChecked = e.target.checked?'1':'0'
+          await this.$store.dispatch('changeStatus',{skuId:item.skuId,isChecked})
+          this.$store.dispatch('getShopCart')
+        } catch (e) {
+          alert(e.message)
+        }
+      },
+      changeAllChecked(e){
+        try {
+          let isChecked = e.target.checked?'1':'0'
+          this.$store.dispatch('changeAllChecked',isChecked)
+          this.$store.dispatch('getShopCart')
+        } catch (e) {
+          alert(e.message)
         }
       }
     }

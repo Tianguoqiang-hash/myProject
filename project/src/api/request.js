@@ -11,6 +11,7 @@ const request = axios.create({
 request.interceptors.request.use((config)=>{
     //通过localstorage添加uuid到请求头,带到服务器
     config.headers.userTempId = localStorage.getItem('uuid')
+    config.headers.token = localStorage.getItem('token')
     // 开启进度条
     nProgress.start()
     return config
