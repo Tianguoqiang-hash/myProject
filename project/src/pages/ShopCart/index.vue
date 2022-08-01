@@ -56,7 +56,7 @@
           <i class="summoney">{{totalPrice}}</i>
         </div>
         <div class="sumbtn">
-          <a class="sum-btn" href="###" target="_blank">结算</a>
+          <a class="sum-btn"  @click="settle">结算</a>
         </div>
       </div>
     </div>
@@ -152,6 +152,9 @@
         } catch (e) {
           alert(e.message)
         }
+      },
+      settle(){
+        this.$router.push('/trade')
       }
     }
   }

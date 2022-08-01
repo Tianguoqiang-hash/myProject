@@ -7,6 +7,8 @@ import Register from '@/pages/Register'
 import Detail from '@/pages/Detail'
 import AddCartSuccess from '@/pages/AddCartSuccess'
 import ShopCart from '@/pages/ShopCart'
+import Trade from '@/pages/Trade'
+import Pay from '@/pages/Pay'
 
 Vue.use(VueRouter)
 export default new VueRouter({
@@ -51,6 +53,16 @@ export default new VueRouter({
             path: '/shopcart',
             name: 'shopcart',
             component: ShopCart
+        },
+        {
+            path: '/trade',
+            name: 'trade',
+            component: Trade
+        },
+        {
+            path: '/pay',
+            name: 'pay',
+            component: Pay
         }
     ],
     scrollBehavior(){

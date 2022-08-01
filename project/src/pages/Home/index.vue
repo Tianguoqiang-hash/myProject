@@ -27,9 +27,6 @@ export default {
   },
   mounted(){
       this.$store.dispatch('getFloors')
-      if(localStorage.getItem('token')){
-        this.$store.dispatch('getUserInfo')
-      }
     },
 };
 </script>
