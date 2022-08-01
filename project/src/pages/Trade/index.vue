@@ -83,7 +83,7 @@
       </div>
     </div>
     <div class="sub clearFix">
-      <router-link class="subBtn" to="/pay">提交订单</router-link>
+      <a class="subBtn" @click="commitOrder">提交订单</a>
     </div>
   </div>
 </template>
@@ -94,7 +94,8 @@
     name: 'Trade',
     data(){
       return{
-        msg: ''
+        msg: '',
+        orderId: '',
       }
     },
     mounted(){
@@ -112,6 +113,24 @@
       changeOpt(address,arr){
         arr.forEach((item)=>{item.isDefault = 0})
         address.isDefault = 1
+      },
+      async commitOrder(){
+        let tradeNo = this.orderList.tradeNo
+        let data = {
+          "consignee": this.selectOpt.consignee,
+          "consigneeTel": this.selectOpt.phoneNum,
+          "deliveryAddress": this.selectOpt.fullAddress,
+          "paymentWay": "ONLINE",
+          "orderComment": this.msg,
+          "orderDetailList": this.orderList.detailArrayList
+        }
+        let result = await this.$api.reqSettle(tradeNo,data)
+        if(result.code === 200){
+          this.orderId = result.data
+          this.$router.push(`/pay?orderId=${this.orderId}`)
+        }else{
+          alert(result.data)
+        }
       }
     },
   }

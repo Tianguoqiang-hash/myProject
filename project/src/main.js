@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from '@/router'
 import store from '@/store'
 import '@/mock/mockServer'
+import * as api from '@/api/index'
 
 Vue.config.productionTip = false
 new Vue({
@@ -13,6 +14,8 @@ new Vue({
   },
   store,
 }).$mount('#app')
+
+Vue.prototype.$api = api
 
 router.beforeEach(async (to,from,next)=>{
   if(localStorage.getItem('token')){
