@@ -19,6 +19,8 @@ export const reqAddress = ()=>request({url:'/user/userAddress/auth/findUserAddre
 export const reqCartList = ()=>request({url:'/order/auth/trade'})
 export const reqSettle = (tradeNo,data)=>request({url:`/order/auth/submitOrder?tradeNo=${tradeNo}`,data,method:'post'})
 export const reqOrder = (orderId)=>request({url:`/payment/weixin/createNative/${orderId}`})
+export const reqPay = (orderId)=>request({url:`/payment/weixin/queryPayStatus/${orderId}`})
+export const reqOrderList = (page,limit)=>request({url:`/order/auth/${page}/${limit}`})
 
 // /api/order/auth/submitOrder?tradeNo={tradeNo}
 // {

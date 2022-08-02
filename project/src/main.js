@@ -4,6 +4,7 @@ import router from '@/router'
 import store from '@/store'
 import '@/mock/mockServer'
 import * as api from '@/api/index'
+import {MessageBox} from 'element-ui'
 
 Vue.config.productionTip = false
 new Vue({
@@ -11,11 +12,13 @@ new Vue({
   router,
   beforeCreate(){
     Vue.prototype.$bus = this
+    Vue.prototype.$api = api
+    Vue.prototype.$alert = MessageBox.alert
+    Vue.prototype.$msgbox = MessageBox
   },
   store,
 }).$mount('#app')
 
-Vue.prototype.$api = api
 
 router.beforeEach(async (to,from,next)=>{
   if(localStorage.getItem('token')){

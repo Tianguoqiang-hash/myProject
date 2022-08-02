@@ -65,7 +65,7 @@
         <div class="hr"></div>
 
         <div class="submit">
-          <a class="btn">立即支付</a>
+          <a class="btn" @click="open">立即支付</a>
         </div>
         <div class="otherpay">
           <div class="step-tit">
@@ -82,6 +82,7 @@
 </template>
 
 <script>
+  import QRCode from 'qrcode'
   export default {
     name: 'Pay',
     data(){
@@ -97,6 +98,42 @@
         let result = await this.$api.reqOrder(this.$route.query.orderId)
         if(result.code === 200){
           this.payInfo = result.data
+        }
+      },
+      async open(){
+        let qrcode = await QRCode.toDataURL("this.payInfo.codeUrl")
+        this.$alert(`<img src=${qrcode} />`, '微信支付', {
+          dangerouslyUseHTMLString: true,
+          center: true,
+          showClose: false,
+          showCancelButton: true,
+          cancelButtonText: '支付遇到问题',
+          confirmButtonText: '我已支付',
+          beforeClose: (action, instance, done)=>{
+            if(action === 'confirm'){
+              clearInterval(this.timer)
+              this.timer = null
+              done()
+              this.$router.push('/paysuccess')
+            }else{
+              alert('请联系管理员')
+              clearInterval(this.timer)
+              this.timer = null
+              done()
+            }
+          },
+        })
+        if(!this.timer){
+          this.timer = setInterval(async () => {
+            let result = await this.$api.reqPay(this.payInfo.orderId)
+            if(result.code === 200){
+              clearInterval(this.timer)
+              this.timer = null
+              this.code = result.code
+              this.$msgbox.close()
+              this.$router.push('/paysuccess')
+            }
+          }, 2000);
         }
       }
     }

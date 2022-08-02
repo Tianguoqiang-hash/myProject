@@ -9,6 +9,10 @@ import AddCartSuccess from '@/pages/AddCartSuccess'
 import ShopCart from '@/pages/ShopCart'
 import Trade from '@/pages/Trade'
 import Pay from '@/pages/Pay'
+import PaySuccess from '@/pages/PaySuccess'
+import Center from '@/pages/Center'
+import MyOrder from '@/pages/Center/myOrder'
+import GroupOrder from '@/pages/Center/groupOrder'
 
 Vue.use(VueRouter)
 export default new VueRouter({
@@ -63,7 +67,33 @@ export default new VueRouter({
             path: '/pay',
             name: 'pay',
             component: Pay
-        }
+        },
+        {
+            path: '/paysuccess',
+            name: 'PaySuccess',
+            component: PaySuccess,
+        },
+        {
+            path: '/center',
+            name: 'center',
+            component: Center,
+            children: [
+                {
+                    path: 'myorder',
+                    name: 'myorder',
+                    component: MyOrder
+                },
+                {
+                    path: 'grouporder',
+                    name: 'grouporder',
+                    component:GroupOrder
+                },
+                {
+                    path: '/center',
+                    redirect: '/center/myorder'
+                }
+            ]
+        },
     ],
     scrollBehavior(){
         return {y:0}
