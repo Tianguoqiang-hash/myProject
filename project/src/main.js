@@ -39,6 +39,10 @@ router.beforeEach(async (to,from,next)=>{
       }
     }
   }else{
-    next()
+    if(to.path.includes('trade') || to.path.includes('pay') ||to.path.includes('center')){
+      next('/login?redirect='+to.path)
+    }else{
+      next()
+    }
   }
 })

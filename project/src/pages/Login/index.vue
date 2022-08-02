@@ -79,7 +79,7 @@
         try {
           const {phone,password} = this
           phone&&password&&(await this.$store.dispatch('login',{phone,password}))
-          this.$router.push('/home')
+          this.$router.push(this.$route.query.redirect || 'home')
         } catch (e) {
           alert(e.message)
         }
